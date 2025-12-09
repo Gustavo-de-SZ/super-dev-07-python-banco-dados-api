@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from datetime import datetime
 
 app = FastAPI()
 
@@ -15,7 +16,7 @@ def calculadora(numero1: int, numero2: int):
 @app.get("/calculadora/expert")
 def calculadora_expert(operacao: str, n1: int, n2: int):
     if operacao not in ["somar", "subtrair"]:
-        return HTTPException(
+        raise HTTPException(
             status_code=400,
             detail="operacao invalida"
         )
@@ -31,7 +32,7 @@ def calculadora_expert(operacao: str, n1: int, n2: int):
         resultado = n1 - n2
         return{
             "n1": n1,
-            "N2": n2,
+            "n2": n2,
             "operacao": operacao,
             "resultado": resultado,
         }
@@ -42,10 +43,11 @@ def concatenar_nome(nome1: str, nome2: str):
 
 @app.get ("/pessoas/calcular-ano-nascimento")
 def calcular_ano_nascimento(idade: int):
-    data_nascimento = 2025 - idade
+    # ano_atual = datetime.now().year
+    data_nascimento = datetime.now().year - idade
     return {"ano de nascimento": data_nascimento}
 
-@app.get ("/pessoas/imc")
+@app.get ("/pessoas/imc")   
 def calcular_imc(peso: float, altura: float):
     imc = peso/(altura * altura)
     
