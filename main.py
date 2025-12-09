@@ -55,7 +55,7 @@ def calcular_imc(peso: float, altura: float):
         status = "peso normal"
     elif imc < 30:
         status = "sobrepeso"
-    elif imc > 30:
+    else:
         status = "obesidade"
         
     return {"imc": imc,  "status": status}
