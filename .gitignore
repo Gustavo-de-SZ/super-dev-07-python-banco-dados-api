@@ -1,0 +1,71 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.so
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables
+*.env
+*.env.*
+!example.env
+
+# Byte-compiled / cache
+*.sqlite3
+.cache/
+pytest_cache/
+pip-log.txt
+pip-wheel-metadata/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# VSCode / IDE
+.vscode/
+.idea/
+*.iml
+
+# MyPy / Type-checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+
+# Logs
+*.log
+
+# Static / uploads (if generated at runtime)
+staticfiles/
+media/
+uploads/
+
+# FastAPI specific (if using auto-generated openapi)
+openapi.json
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Local dev files
+.DS_Store
