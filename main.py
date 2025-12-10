@@ -3,9 +3,11 @@ from datetime import datetime
 
 app = FastAPI()
 
+
 @app.get("/greetings")
 def saudacoes():
     return {"mensagem": "Hello World"}
+
 
 @app.get("/calculadora")
 def calculadora(numero1: int, numero2: int):
@@ -16,13 +18,10 @@ def calculadora(numero1: int, numero2: int):
 @app.get("/calculadora/expert")
 def calculadora_expert(operacao: str, n1: int, n2: int):
     if operacao not in ["somar", "subtrair"]:
-        raise HTTPException(
-            status_code=400,
-            detail="operacao invalida"
-        )
+        raise HTTPException(status_code=400, detail="operacao invalida")
     if operacao == "somar":
         resultado = n1 + n2
-        return{
+        return {
             "n1": n1,
             "N2": n2,
             "operacao": operacao,
@@ -30,27 +29,31 @@ def calculadora_expert(operacao: str, n1: int, n2: int):
         }
     elif operacao == "subtrair":
         resultado = n1 - n2
-        return{
+        return {
             "n1": n1,
             "n2": n2,
             "operacao": operacao,
             "resultado": resultado,
         }
-@app.get ("/pessoas/nome-completo")
+
+
+@app.get("/pessoas/nome-completo")
 def concatenar_nome(nome1: str, nome2: str):
     concatenar = nome1 + " " + nome2
     return {"resultado": concatenar}
 
-@app.get ("/pessoas/calcular-ano-nascimento")
+
+@app.get("/pessoas/calcular-ano-nascimento")
 def calcular_ano_nascimento(idade: int):
     # ano_atual = datetime.now().year
     data_nascimento = datetime.now().year - idade
     return {"ano de nascimento": data_nascimento}
 
-@app.get ("/pessoas/imc")   
+
+@app.get("/pessoas/imc")
 def calcular_imc(peso: float, altura: float):
-    imc = peso/(altura * altura)
-    
+    imc = peso / (altura * altura)
+
     if imc < 18.5:
         status = "abaixo"
     elif imc < 25:
@@ -59,6 +62,5 @@ def calcular_imc(peso: float, altura: float):
         status = "sobrepeso"
     else:
         status = "obesidade"
-        
-    return {"imc": imc,  "status": status}
 
+    return {"imc": imc, "status": status}
