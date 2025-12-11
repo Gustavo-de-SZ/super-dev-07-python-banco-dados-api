@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from datetime import datetime
 
+from classes import AlunoCalcularMedia, AlunoFrequencia, CarroAutonomia, ProdutoDesconto, CategoriaCriar, CategoriaEditar
+from src.repositorios import mercado_categoria_repositorio 
+
 app = FastAPI()
 
 
@@ -64,3 +67,66 @@ def calcular_imc(peso: float, altura: float):
         status = "obesidade"
 
     return {"imc": imc, "status": status}
+
+
+@app.post("/aluno/calcular-media")
+def calcular_media(aluno_dados: AlunoCalcularMedia):
+    nota1 = aluno_dados.nota1
+    nota2 = aluno_dados.nota2
+    nota3 = aluno_dados.nota3
+    media = (nota1 + nota2 + nota3) / 3
+    return {
+        "Media": media,
+        "nome_completo": aluno_dados.nome_completo
+    }
+    
+    
+@app.post ("/aluno/calcular-frequencia")
+def calcular_frequencia(aluno_frequencia: AlunoFrequencia):
+    quantidade_letivos = aluno_frequencia.quantidade_letivos
+    quantidade_presencas = aluno_frequencia.quantidade_presencas
+    frequencia = (quantidade_presencas * 100) / quantidade_letivos
+    return {
+        "nome_completo": aluno_frequencia.nome_completo,
+        "frequencia": frequencia
+    }    
+    
+
+@app.post ("/produto/calcular-desconto")
+def calcular_desconto(produto_desconto: ProdutoDesconto):
+    preco_original = produto_desconto.preco_original
+    percentual_desconto = produto_desconto.percentual_desconto
+    valor_desconto = (preco_original * percentual_desconto) / 100
+    preco_final = preco_original - valor_desconto
+    return {
+        "nome": produto_desconto.nome,
+        "desconto": valor_desconto,
+        "preco_final": preco_final
+    }
+    
+@app.post ("/carro/calcular-autonomia")
+def calcular_autonomia(calcular_autonomia: CarroAutonomia):
+    consumo_por_litro = calcular_autonomia.consumo_por_litro
+    quantidade_combustivel = calcular_autonomia.quantidade_combustivel
+    autonomia = consumo_por_litro * quantidade_combustivel
+    return {
+        "modelo": calcular_autonomia.modelo,
+        "autonomia": autonomia
+    }
+
+
+@app.get("/api/v1/categorias")
+def listar_categorias():
+    categorias = mercado_categoria_repositorio.obter_todos()
+    return categorias
+
+@app.post("/api/v1/categorias")
+def cadastrar_categorias(categoria: CategoriaCriar):
+    mercado_categoria_repositorio.cadastrar(categoria.nome)
+    return {
+        "status": "ok"
+    }
+
+@app.delete("/api/v1/categoria")
+def apagar_categoria():
+    pass
