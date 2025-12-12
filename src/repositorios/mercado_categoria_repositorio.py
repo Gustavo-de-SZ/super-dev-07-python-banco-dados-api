@@ -32,11 +32,13 @@ def editar(id: int, nome: str):
     cursor.execute(sql, dados)
 
     conexao.commit()
+    
+    linhas_afetadas = cursor.rowcount
 
     cursor.close()
 
     conexao.close()
-
+    return linhas_afetadas
 
 def apagar(id: int) -> int:
     conexao = conectar()
@@ -85,4 +87,20 @@ def obter_todos():
     
     return categorias
     
-
+def obter_por_id(id: int):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    sql = "SELECT id,nome FROM categorias WHERE id = %s"
+    dados = (id,)
+    
+    cursor.execute(sql, dados)
+    
+    registro = cursor.fetchone
+    
+    if not registro: 
+        return None
+    
+    return {
+        "id": registro[0],
+        "nome": registro [1]
+    }
