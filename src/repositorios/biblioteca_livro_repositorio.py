@@ -95,30 +95,29 @@ def obter_todos():
     
     return livros
 
+
 def obter_por_id(id: int):
-    conexao = conectar()
+    conexao = conectar_biblioteca()
+
     cursor = conexao.cursor()
-    sql = """select
-        livros.id,
-        livros.nome,
-        autor.id,
-        autor.nome
-    from livros
-    inner join autor on (livros.id_categoria = autor.id)
-    where produtos.id = %s"""
-    cursor.execute(sql, (id,))
+
+    sql = "SELECT id, titulo, quantidade_paginas, autor, preco, isbn, descricao FROM livros WHERE id= %s"
+
+    dados = (id, )
+
+    cursor.execute(sql, dados)
+
     registro = cursor.fetchone()
-    cursor.close()
-    conexao.close()
 
-    if registro is None:
+    if not registro:
         return None
-
+    
     return {
         "id": registro[0],
-        "nome": registro[1],
-        "autor": {
-            "id": registro[2],
-            "nome": registro[3]
-        }
+        "titulo": registro[1],
+        "quantidade_paginas": registro[2],
+        "autor": registro[3],
+        "preco": registro[4],
+        "isbn": registro[5],
+        "descricao": registro[6]
     }

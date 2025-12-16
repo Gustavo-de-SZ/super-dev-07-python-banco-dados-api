@@ -33,6 +33,31 @@ def obter_todos():
     return revistas
 
 
+def obter_por_id(id: int):
+    conexao = conectar_biblioteca()
+
+    cursor = conexao.cursor()
+
+    sql = "SELECT id, titulo, edicao, data_publicacao, editora FROM revistas WHERE id = %s"
+
+    dados = (id, )
+
+    cursor.execute(sql, dados)
+
+    registro = cursor.fetchone()
+
+    if not registro:
+        return None
+    
+    return {
+        "id": registro[0],
+        "titulo": registro[1],
+        "edicao": registro[2],
+        "data_publicacao": registro[3],
+        "editora": registro[4],
+    }
+
+
 def cadastrar(titulo: str, edicao: int, data_publicacao: date, editora: str):
     conexao = conectar_biblioteca()
 

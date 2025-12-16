@@ -1,71 +1,83 @@
-# -------------------------
+# ----------------------------------------
 # Python
-# -------------------------
+# ----------------------------------------
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.pkl
 *.so
+*.pyd
+*.pyo
 
 # Virtual environment
-.venv/
-venv/
+.env
+.venv
 env/
+venv/
 
-# Environment variables
-*.env
-*.env.*
-!example.env
-
-# Byte-compiled / cache
-*.sqlite3
-.cache/
-pytest_cache/
-pip-log.txt
-pip-wheel-metadata/
-
-# Build / packaging
+# Distribuição / Build
 build/
 dist/
 *.egg-info/
-.eggs/
+*.egg
 
-# VSCode / IDE
-.vscode/
-.idea/
-*.iml
+# Cache
+.cache/
+pip-wheel-metadata/
+pytest_cache/
 
-# MyPy / Type-checking
+# Logs
+*.log
+logs/
+*.out
+
+# Byte-compiled / C Extensions
+*.dll
+*.dylib
+
+# ----------------------------------------
+# FastAPI / Uvicorn
+# ----------------------------------------
+# Arquivos criados pelo Uvicorn ou Gunicorn
+uvicorn.pid
+gunicorn.pid
+
+# ----------------------------------------
+# Configurações / Credenciais
+# ----------------------------------------
+.env.local
+.env.development
+.env.production
+.secrets/
+*.secret
+*.key
+
+# ----------------------------------------
+# Ferramentas / Testes
+# ----------------------------------------
+.coverage
+coverage.xml
+htmlcov/
+
+# mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
-# Pytest
-.pytest_cache/
+# PyInstaller
+*.manifest
+*.spec
 
-# Coverage
-htmlcov/
-.coverage
-.coverage.*
-.cache/
-nosetests.xml
-coverage.xml
+# ----------------------------------------
+# IDEs
+# ----------------------------------------
+# VSCode
+.vscode/
 
-# Logs
-*.log
+# PyCharm
+.idea/
 
-# Static / uploads (if generated at runtime)
-staticfiles/
-media/
-uploads/
-
-# FastAPI specific (if using auto-generated openapi)
-openapi.json
-
-# Docker
+# ----------------------------------------
+# Docker (se usar)
+# ----------------------------------------
+# Evitar sobrescrever arquivos do contêiner
 docker-compose.override.yml
-*.pid
-
-# Local dev files
-.DS_Store
+.env
