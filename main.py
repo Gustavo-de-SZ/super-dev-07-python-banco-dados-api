@@ -314,8 +314,8 @@ def buscar_categoria_por_id(id: int, db : Session = Depends(get_db)):
 
 
 @app.get("/api/v1/produtos", tags=["Produtos"])
-def listar_todos_produtos():
-    produtos = mercado_produto_repositorio.obter_todos()
+def listar_todos_produtos(db: Session = Depends(get_db)):
+    produtos = mercado_produto_repositorio.obter_todos(db)
     return produtos
 
 
@@ -328,8 +328,8 @@ def cadastrar_produto(produto: ProdutoCriar):
 
 
 @app.put("/api/v1/produtos/{id}", tags=["Produtos"])
-def alterar_produto(id: int, produto: ProdutoEditar):
-    linhas_afetadas = mercado_produto_repositorio.editar(id, produto.nome, produto.id_categoria)
+def alterar_produto(id: int, produto: ProdutoEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = mercado_produto_repositorio.editar(db, id, produto.nome, produto.id_categoria)
 
     if linhas_afetadas != 1:
         raise HTTPException(status_code=404, detail="Produto não encontrado")
@@ -340,8 +340,8 @@ def alterar_produto(id: int, produto: ProdutoEditar):
 
 
 @app.delete("/api/v1/produtos/{id}", tags=["Produtos"])
-def apagar_produto(id: int):
-    linhas_afetadas = mercado_produto_repositorio.apagar(id)
+def apagar_produto(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = mercado_produto_repositorio.apagar(db, id)
 
     if linhas_afetadas != 1:
         raise HTTPException(status_code= 404, detail="Produto não encontrado")
@@ -352,8 +352,8 @@ def apagar_produto(id: int):
 
 
 @app.get("/api/v1/produtos/{id}", tags=["Produtos"])
-def obter_produto_por_id(id: int):
-    produto = mercado_produto_repositorio.obter_por_id(id)
+def obter_produto_por_id(id: int, db: Session = Depends(get_db)):
+    produto = mercado_produto_repositorio.obter_por_id(db, id)
 
     if produto is None:
         raise HTTPException(status_code=404, detail="Produto não encontrado")
